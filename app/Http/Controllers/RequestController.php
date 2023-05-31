@@ -13,7 +13,7 @@ class RequestController extends Controller
      */
     public function index()
     {
-        return Auth::user()->requests()->get();
+        return Auth::user()->requests()->latest()->get();
     }
 
     /**
@@ -36,6 +36,6 @@ class RequestController extends Controller
      */
     public function show(\App\Models\Request $request): JsonResponse
     {
-        return response()->json($request->load(['user', 'comments']));
+        return response()->json($request->load(['user', 'comments.user']));
     }
 }
