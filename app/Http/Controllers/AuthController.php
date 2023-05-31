@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -57,6 +58,7 @@ class AuthController extends Controller
 
         $user = User::create([
             ...$validated,
+            'password' => Hash::make($validated['password']),
             'type' => Type::Student->value,
             'role' => Role::Requester->value,
         ]);
