@@ -18,10 +18,10 @@ class CommentController extends Controller
         ]);
 
         $comment = $request->comments()->create([
-            $validated,
+            ...$validated,
             'user_id' => Auth::id(),
         ]);
 
-        return response()->json($comment);
+        return response()->json($comment->load('user'));
     }
 }
