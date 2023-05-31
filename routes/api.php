@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Route::post('sign-up', [AuthController::class, 'signUp']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('me', [AuthController::class, 'me']);
 
-Route::middleware(['auth:api'])->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('requests', RequestController::class)->except(['update', 'delete']);
+    Route::apiResource('requests.comments', \App\Http\Controllers\CommentController::class)->only(['store']);
+    Route::post('upload', [\App\Http\Controllers\MediaController::class, 'store']);
 });
+

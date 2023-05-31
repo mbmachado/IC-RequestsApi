@@ -32,7 +32,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['message' => __('auth.failed')], 401);
         }
 
