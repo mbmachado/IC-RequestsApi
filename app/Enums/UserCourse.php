@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Course: string
+enum UserCourse: string
 {
     case ComputerScience = 'COMPUTER_SCIENCE';
     case InformationSystems = 'INFORMATION_SYSTEMS';
@@ -10,6 +10,6 @@ enum Course: string
 
     public static function getValues(): array
     {
-        return array_column(Course::cases(), 'value');
+        return array_column(UserCourse::cases(), 'value');
     }
 }

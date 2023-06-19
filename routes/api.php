@@ -1,9 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\RequestTemplateController;
+use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,15 +19,22 @@ use App\Http\Controllers\RequestController;
 |
 */
 
-Route::post('sign-in', [AuthController::class, 'login']);
-Route::post('sign-out', [AuthController::class, 'logout']);
+Route::post('sign-in', [AuthController::class, 'singIn']);
+Route::post('sign-out', [AuthController::class, 'signOut']);
 Route::post('sign-up', [AuthController::class, 'signUp']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('me', [AuthController::class, 'me']);
 
 Route::middleware('auth:api')->group(function () {
+    Route::apiResource('users', UserController::class)->except(['delete']);
+    Route::apiResource('workflows', WorkflowController::class)->except(['delete']);
     Route::apiResource('requests', RequestController::class)->except(['update', 'delete']);
-    Route::apiResource('requests.comments', \App\Http\Controllers\CommentController::class)->only(['store']);
+    Route::apiResource('request-templates', RequestTemplateController::class)->except(['delete']);
+    Route::apiResource('requests.comments', CommentController::class)->only(['store']);
+    Route::post('requests/{request}/assignees/{user}', [RequestController::class, 'attachAssignee']);
+    Route::delete('requests/{request}/assignees/{user}', [RequestController::class, 'detachAssignee']);
+    Route::put('requests/{request}/priority', [RequestController::class, 'changePriority']);
+    Route::put('requests/{request}/status', [RequestController::class, 'changeStatus']);
     Route::post('upload', [\App\Http\Controllers\MediaController::class, 'store']);
 });
 

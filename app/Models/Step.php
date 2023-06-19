@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Comment extends Model
+class Step extends Model
 {
     use HasFactory;
 
@@ -16,10 +16,12 @@ class Comment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'value',
-        'source',
-        'user_id',
-        'request_id',
+        'name',
+        'description',
+        'assignee_type',
+        'step_type',
+        'order',
+        'workflow_id',
     ];
 
     /**
@@ -28,23 +30,15 @@ class Comment extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'request_id' => 'integer',
-        'user_id' => 'integer',
+        'order' => 'integer',
+        'workflow_id' => 'integer',
     ];
 
     /**
-     * Get the user that owns the comment.
+     * Get the workflow that owns the step.
      */
-    public function user(): BelongsTo
+    public function workflow(): BelongsTo
     {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the request that owns the comment.
-     */
-    public function request(): BelongsTo
-    {
-        return $this->belongsTo(Request::class);
+        return $this->belongsTo(Workflow::class);
     }
 }

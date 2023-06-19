@@ -11,13 +11,13 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $req, \App\Models\Request $request): JsonResponse
+    public function store(Request $request, \App\Models\Request $_request): JsonResponse
     {
-        $validated = $req->validate([
+        $validated = $request->validate([
             'value' => 'required',
         ]);
 
-        $comment = $request->comments()->create([
+        $comment = $_request->comments()->create([
             ...$validated,
             'user_id' => Auth::id(),
         ]);

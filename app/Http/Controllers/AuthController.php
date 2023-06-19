@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Course;
-use App\Enums\Role;
-use App\Enums\Type;
+use App\Enums\UserRole;
+use App\Enums\UserType;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,18 +15,16 @@ class AuthController extends Controller
 {
     /**
      * Create a new AuthController instance.
-     *
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'signUp']]);
+        $this->middleware('auth:api', ['except' => ['singIn', 'signUp']]);
     }
 
     /**
      * Get a JWT via given credentials.
-     *
      */
-    public function login(Request $request): JsonResponse
+    public function singIn(Request $request): JsonResponse
     {
         $credentials = $request->validate([
             'email' => 'required|string|email|max:255',
@@ -42,25 +40,16 @@ class AuthController extends Controller
 
     /**
      * Register the user.
-     *
      */
-    public function signUp(Request $request): JsonResponse
+    public function signUp(UserRequest $request): JsonResponse
     {
-        $courses = join( ',', Course::getValues());
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'enrollment_number' => 'required|numeric',
-            'course' => "required|in:{$courses}",
-        ]);
+        $validated = $request->validated();
 
         $user = User::create([
             ...$validated,
             'password' => Hash::make($validated['password']),
-            'type' => Type::Student->value,
-            'role' => Role::Requester->value,
+            'type' => UserType::Student->value,
+            'role' => UserRole::Requester->value,
         ]);
 
         $token = auth()->login($user);
@@ -70,7 +59,6 @@ class AuthController extends Controller
 
     /**
      * Get the authenticated User.
-     *
      */
     public function me(): JsonResponse
     {
@@ -79,9 +67,8 @@ class AuthController extends Controller
 
     /**
      * Log the user out (Invalidate the token).
-     *
      */
-    public function logout(): Response
+    public function signOut(): Response
     {
         auth()->logout();
 
@@ -90,7 +77,6 @@ class AuthController extends Controller
 
     /**
      * Refresh a token.
-     *
      */
     public function refresh(): JsonResponse
     {
@@ -99,7 +85,6 @@ class AuthController extends Controller
 
     /**
      * Get the token array structure.
-     *
      */
     protected function respondWithToken(string $token): JsonResponse
     {

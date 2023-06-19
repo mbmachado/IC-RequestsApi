@@ -2,13 +2,13 @@
 
 namespace App\Enums;
 
-enum Role: string
+enum UserRole: string
 {
     case Admin = 'ADMIN';
     case Requester = 'REQUESTER';
 
     public static function getValues(): array
     {
-        return array_column(Role::cases(), 'value');
+        return array_column(UserRole::cases(), 'value');
     }
 }

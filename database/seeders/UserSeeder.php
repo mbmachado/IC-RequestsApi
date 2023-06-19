@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Course;
-use App\Enums\Role;
+use App\Enums\UserCourse;
+use App\Enums\UserRole;
+use App\Enums\UserType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -23,10 +24,22 @@ class UserSeeder extends Seeder
                 'email' => 'mateus.machado@ufba.br',
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
-                'course' => Course::ComputerScience,
+                'course' => UserCourse::ComputerScience,
                 'enrollment_number' => 215115522,
-                'role' => Role::Requester,
-                'type' => 'STUDENT',
+                'role' => UserRole::Requester->value,
+                'type' => UserType::Student->value,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Mateus Machado',
+                'email' => 'mbmachado@outlook.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('flK088#2!@#12k*&'),
+                'course' => UserCourse::ComputerScience,
+                'enrollment_number' => 215115522,
+                'role' => UserRole::Admin->value,
+                'type' => UserType::Committee->value,
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
             ],

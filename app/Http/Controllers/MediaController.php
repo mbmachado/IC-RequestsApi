@@ -10,7 +10,6 @@ class MediaController extends Controller
 {
     /**
      * Store a newly created resource in storage.
-     *
      */
     public function store(FileRequest $request): JsonResponse
     {

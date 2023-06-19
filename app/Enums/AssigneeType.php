@@ -2,14 +2,13 @@
 
 namespace App\Enums;
 
-enum Type: string
+enum AssigneeType: string
 {
     case Office = 'OFFICE';
     case Committee = 'COMMITTEE';
-    case Student = 'STUDENT';
 
     public static function getValues(): array
     {
-        return array_column(Type::cases(), 'value');
+        return array_column(AssigneeType::cases(), 'value');
     }
 }
