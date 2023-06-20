@@ -78,7 +78,9 @@ class Request extends Model
      */
     public function assignees(): BelongsToMany
     {
-        return $this->belongsToMany(Request::class, 'assignees')->as('assignees');
+        return $this->belongsToMany(User::class, 'assignees')
+            ->as('assignees')
+            ->withTimestamps();
     }
 
     /**
@@ -86,6 +88,8 @@ class Request extends Model
      */
     public function viewedBy(): BelongsToMany
     {
-        return $this->belongsToMany(Request::class, 'views')->as('viewed_by');
+        return $this->belongsToMany(User::class, 'views')
+            ->as('viewed_by')
+            ->withTimestamps();
     }
 }

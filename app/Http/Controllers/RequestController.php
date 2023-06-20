@@ -78,7 +78,7 @@ class RequestController extends Controller
         $user = Auth::user();
 
         if ($user->isAdmin()) {
-            $request->viewedBy()->attach($user->id);
+            $request->viewedBy()->sync($user->id);
         }
 
         return response()->json(
@@ -88,6 +88,7 @@ class RequestController extends Controller
                 'requestTemplate.workflow.steps',
                 'step',
                 'user',
+                'viewedBy',
             ])
         );
     }
