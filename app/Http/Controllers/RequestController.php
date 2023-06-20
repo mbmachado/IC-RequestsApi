@@ -59,7 +59,14 @@ class RequestController extends Controller
             'attachments.*' => 'string',
         ]);
 
-        return response()->json(Auth::user()->requests()->create($validated));
+        return response()->json(
+            Auth::user()->requests()->create([
+                ...$validated,
+                'due_date' => now()->addDays(2),
+                'step_id' => 1,
+                'request_template_id' => 1,
+            ])
+        );
     }
 
     /**

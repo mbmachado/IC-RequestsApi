@@ -18,17 +18,17 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->enum('status', RequestTemplateStatus::getValues())
                 ->default(RequestTemplateStatus::Active->value);
-            $table->boolean('show_title_field');
-            $table->string('title_field_label');
-            $table->string('title_field_placeholder');
-            $table->boolean('title_field_required');
-            $table->boolean('show_details_field');
-            $table->string('details_field_label');
-            $table->string('details_field_placeholder');
-            $table->boolean('details_field_required');
-            $table->boolean('show_attachments_field');
-            $table->string('attachments_field_label');
-            $table->boolean('attachments_field_required');
+            $table->boolean('show_title_field')->default(false);
+            $table->string('title_field_label')->default('Título');
+            $table->string('title_field_placeholder')->nullable();
+            $table->boolean('title_field_required')->default(false);;
+            $table->boolean('show_details_field')->default(true);
+            $table->string('details_field_label')->default('Detalhes');
+            $table->string('details_field_placeholder')->nullable();
+            $table->boolean('details_field_required')->default(false);
+            $table->boolean('show_attachments_field')->default(false);
+            $table->string('attachments_field_label')->default('Anexos');
+            $table->boolean('attachments_field_required')->default(false);
             $table->foreignId('workflow_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

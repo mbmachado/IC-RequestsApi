@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->enum('assignee_type', AssigneeType::getValues())->default(AssigneeType::Office->value);
+            $table->enum('assignee_type', AssigneeType::getValues())
+                ->default(AssigneeType::Office->value)
+                ->nullable();
             $table->enum('step_type', StepType::getValues())->default(StepType::Intermediate->value);
             $table->unsignedTinyInteger('order');
             $table->foreignId('workflow_id')->constrained()->onDelete('cascade');
