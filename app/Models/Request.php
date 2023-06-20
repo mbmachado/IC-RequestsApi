@@ -50,6 +50,14 @@ class Request extends Model
     }
 
     /**
+     * Get the step that owns the request.
+     */
+    public function step(): BelongsTo
+    {
+        return $this->belongsTo(Step::class);
+    }
+
+    /**
      * Get the template that owns the request.
      */
     public function requestTemplate(): BelongsTo

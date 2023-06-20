@@ -37,7 +37,8 @@ class RequestController extends Controller
                 AllowedFilter::exact('status'),
                 AllowedFilter::exact('priority'),
             ])
-            ->defaultSort('-created_at');
+            ->defaultSort('-created_at')
+            ->with(['assignees', 'step']);
 
         if ($user->isAdmin()) {
             return response()->json($query->paginate(10));
@@ -80,7 +81,15 @@ class RequestController extends Controller
             $request->viewedBy()->attach($user->id);
         }
 
-        return response()->json($request->load(['user', 'comments.user']));
+        return response()->json(
+            $request->load([
+                'assignees',
+                'comments.user',
+                'requestTemplate.workflow.steps',
+                'step',
+                'user',
+            ])
+        );
     }
 
     /**
